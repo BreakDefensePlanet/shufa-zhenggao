@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>墨讯 · 全国书法征稿信息站</title>
+<meta name="description" content="全国书法征稿信息聚合：中书协国展、全国大赛、省级市级书法展赛、硬笔书法、青少年书法比赛征稿启事，按截稿日期排序，倒计时提醒，每周更新。以官方发布为准。">
+<meta name="keywords" content="书法征稿,书法大赛,征稿启事,中书协,书法展览,硬笔书法,书法比赛,投稿">
+<meta property="og:title" content="墨讯 · 全国书法征稿信息站">
+<meta property="og:description" content="全国各级别书法征稿信息聚合，按截稿日期排序，倒计时提醒，每周更新。">
+<meta property="og:type" content="website">
+<meta name="robots" content="index,follow">
+<style>
+:root{
+  --paper:#f6f0e3;
+  --paper2:#fbf7ec;
+  --ink:#2c2a26;
+  --ink-soft:#5a554a;
+  --cinnabar:#b03a2e;
+  --cinnabar-d:#8e2b21;
+  --green:#3d7a68;
+  --green-d:#2f5f51;
+  --gold:#9a7b3f;
+  --line:#ddd3bd;
+  --kaiti:'Kaiti SC','STKaiti','KaiTi','FangSong','SimSun',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(61,122,104,.06), transparent 55%),
+    radial-gradient(ellipse at 90% 10%, rgba(176,58,46,.05), transparent 50%),
+    var(--paper);
+  color:var(--ink);
+  min-height:100vh;
+}
+/* ===== 顶部横幅 ===== */
+header.hero{
+  background:linear-gradient(160deg,#262420 0%,#3a362f 60%,#4a4234 100%);
+  color:#f2ead6;
+  padding:42px 20px 34px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+header.hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(242,234,214,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(242,234,214,.04) 1px, transparent 1px);
+  background-size:34px 34px;
+}
+.hero-inner{position:relative;z-index:1;max-width:960px;margin:0 auto}
+.brand{display:flex;align-items:center;justify-content:center;gap:16px}
+.brand h1{
+  font-family:var(--kaiti);
+  font-size:52px;
+  letter-spacing:14px;
+  font-weight:700;
+  text-shadow:0 3px 12px rgba(0,0,0,.4);
+}
+.seal{
+  width:52px;height:52px;
+  background:var(--cinnabar);
+  color:#f6e9d8;
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--kaiti);
+  font-size:17px;
+  line-height:1.15;
+  letter-spacing:2px;
+  writing-mode:vertical-rl;
+  box-shadow:inset 0 0 0 2px rgba(246,233,216,.35), 0 4px 10px rgba(0,0,0,.35);
+  transform:rotate(-2deg);
+}
+.hero .sub{
+  margin-top:14px;
+  font-size:15px;
+  color:#cfc3a6;
+  letter-spacing:3px;
+}
+.hero .update{
+  display:inline-block;
+  margin-top:16px;
+  font-size:12.5px;
+  color:#e8dcc0;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(242,234,214,.25);
+  border-radius:20px;
+  padding:5px 16px;
+  letter-spacing:1px;
+}
+.hero .update b{color:#f0b429}
+/* ===== 统计条 ===== */
+.stats{
+  max-width:1080px;margin:-20px auto 0;
+  padding:0 16px;position:relative;z-index:2;
+}
+.stats-box{
+  display:flex;gap:12px;flex-wrap:wrap;justify-content:center;
+  background:var(--paper2);
+  border:1px solid var(--line);
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(60,50,30,.12);
+  padding:16px 20px;
+}
+.stat{text-align:center;padding:4px 22px}
+.stat .num{
+  font-family:var(--kaiti);
+  font-size:30px;font-weight:700;line-height:1;
+}
+.stat .num.c1{color:var(--cinnabar)}
+.stat .num.c2{color:var(--green)}
+.stat .num.c3{color:var(--gold)}
+.stat .lab{font-size:12px;color:var(--ink-soft);margin-top:5px;letter-spacing:1px}
+.stat + .stat{border-left:1px solid var(--line)}
+/* ===== 工具条 ===== */
+.toolbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(246,240,227,.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+  padding:12px 16px;
+  margin-top:18px;
+}
+.toolbar-inner{max-width:1080px;margin:0 auto}
+.search-row{display:flex;gap:10px;align-items:center}
+.search-row input{
+  flex:1;
+  max-width:420px;
+  padding:9px 16px;
+  border:1px solid #c9bda0;
+  border-radius:24px;
+  background:#fffdf6;
+  font-size:14px;
+  outline:none;
+  transition:border-color .2s, box-shadow .2s;
+}
+.search-row input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(61,122,104,.15)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chip{
+  padding:5px 14px;
+  border-radius:18px;
+  border:1px solid #c9bda0;
+  background:#fffdf6;
+  font-size:13px;
+  color:var(--ink-soft);
+  cursor:pointer;
+  user-select:none;
+  transition:all .15s;
+  white-space:nowrap;
+}
+.chip:hover{border-color:var(--green);color:var(--green)}
+.chip.on{
+  background:var(--ink);
+  color:#f6f0e3;
+  border-color:var(--ink);
+}
+.chip.on.cinnabar{background:var(--cinnabar);border-color:var(--cinnabar)}
+.chip.on.green{background:var(--green);border-color:var(--green)}
+.chip.on.gold{background:var(--gold);border-color:var(--gold)}
+.chip.urgent{color:var(--cinnabar);border-color:rgba(176,58,46,.5)}
+.chip.urgent.on{background:var(--cinnabar);border-color:var(--cinnabar);color:#fff}
+/* ===== 主体 ===== */
+main{max-width:1080px;margin:0 auto;padding:22px 16px 10px}
+.section-title{
+  font-family:var(--kaiti);
+  font-size:21px;
+  margin:10px 0 16px;
+  display:flex;align-items:center;gap:10px;
+  letter-spacing:2px;
+}
+.section-title::before{
+  content:'';width:4px;height:22px;background:var(--cinnabar);border-radius:2px;
+}
+.section-title small{font-family:sans-serif;font-size:12px;color:var(--ink-soft);letter-spacing:0}
+.empty{
+  text-align:center;padding:60px 20px;color:var(--ink-soft);font-size:14px;
+  border:1px dashed #c9bda0;border-radius:12px;background:rgba(255,253,246,.5);
+}
+/* ===== 卡片 ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:16px;
+}
+.card{
+  background:var(--paper2);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:18px 18px 14px;
+  position:relative;
+  display:flex;flex-direction:column;
+  transition:transform .18s, box-shadow .18s;
+  box-shadow:0 2px 8px rgba(60,50,30,.06);
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(60,50,30,.14)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{
+  font-size:11px;
+  padding:2px 9px;
+  border-radius:4px;
+  letter-spacing:1px;
+  color:#fff;
+  white-space:nowrap;
+}
+.tag.zhongshuxie{background:var(--cinnabar)}
+.tag.quanguo{background:var(--ink)}
+.tag.shengji{background:var(--green)}
+.tag.shiji{background:#5b7485}
+.tag.yingbi{background:#7a5c3a}
+.tag.qingshaonian{background:#b8863a}
+.days{
+  font-family:var(--kaiti);
+  font-size:13px;
+  padding:3px 10px;
+  border-radius:16px;
+  border:1px solid;
+  white-space:nowrap;
+}
+.days.ok{color:var(--green-d);border-color:rgba(61,122,104,.4);background:rgba(61,122,104,.08)}
+.days.soon{color:var(--gold);border-color:rgba(154,123,63,.45);background:rgba(154,123,63,.1)}
+.days.urgent{color:var(--cinnabar);border-color:rgba(176,58,46,.45);background:rgba(176,58,46,.08);animation:pulse 1.6s infinite}
+.days.over{color:#999;border-color:#d8d2c2;background:#f0ece0}
+@keyframes pulse{
+  0%,100%{opacity:1}
+  50%{opacity:.55}
+}
+.card h3{
+  font-family:var(--kaiti);
+  font-size:18.5px;
+  margin:12px 0 6px;
+  line-height:1.45;
+  letter-spacing:.5px;
+}
+.card .org{
+  font-size:12.5px;
+  color:var(--ink-soft);
+  margin-bottom:10px;
+}
+.card .org b{color:var(--ink);font-weight:600}
+.deadline-row{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;
+  color:var(--ink);
+  background:rgba(221,211,189,.25);
+  border-radius:8px;
+  padding:7px 12px;
+  margin-bottom:10px;
+}
+.deadline-row .dl{color:var(--ink-soft)}
+.deadline-row .d{font-weight:700;letter-spacing:.5px}
+.prize{
+  font-size:13px;
+  color:var(--cinnabar-d);
+  background:rgba(176,58,46,.07);
+  border-radius:8px;
+  padding:6px 12px;
+  margin-bottom:8px;
+}
+.points{margin:2px 0 12px;list-style:none}
+.points li{
+  font-size:12.5px;
+  color:var(--ink-soft);
+  padding:3px 0 3px 18px;
+  position:relative;
+}
+.points li::before{
+  content:'◆';
+  position:absolute;left:2px;top:3px;
+  font-size:9px;color:var(--green);
+}
+.card .foot{
+  margin-top:auto;
+  padding-top:12px;
+  border-top:1px dashed var(--line);
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+  font-size:11.5px;color:#a09680;
+}
+.card .foot a{
+  color:var(--green-d);
+  text-decoration:none;
+  border:1px solid rgba(61,122,104,.4);
+  padding:4px 12px;
+  border-radius:16px;
+  font-size:12px;
+  transition:all .15s;
+  white-space:nowrap;
+}
+.card .foot a:hover{background:var(--green);color:#fff}
+/* ===== 已截止折叠 ===== */
+details.overbox{
+  margin-top:26px;
+  background:rgba(240,236,224,.6);
+  border:1px dashed #c9bda0;
+  border-radius:12px;
+  overflow:hidden;
+}
+details.overbox summary{
+  cursor:pointer;
+  padding:14px 18px;
+  font-family:var(--kaiti);
+  font-size:16px;
+  letter-spacing:2px;
+  color:var(--ink-soft);
+  user-select:none;
+}
+details.overbox summary:hover{color:var(--cinnabar)}
+details.overbox summary .cnt{font-size:12px;color:#a09680;margin-left:6px}
+details.overbox .grid{padding:0 16px 16px}
+details.overbox .card{background:#f3efe4;opacity:.78}
+/* ===== 声明 ===== */
+.disclaimer{
+  margin:30px auto 10px;
+  max-width:1080px;
+  padding:16px 20px;
+  background:rgba(154,123,63,.07);
+  border:1px solid rgba(154,123,63,.3);
+  border-left:4px solid var(--gold);
+  border-radius:10px;
+  font-size:12.5px;
+  color:var(--ink-soft);
+  line-height:1.8;
+}
+.disclaimer b{color:var(--gold)}
+/* ===== footer ===== */
+footer{
+  margin-top:34px;
+  background:#262420;
+  color:#c9bd a2;
+  color:#c9bda2;
+  text-align:center;
+  padding:26px 16px 34px;
+  font-size:12.5px;
+  line-height:2;
+}
+footer .f-brand{font-family:var(--kaiti);font-size:20px;letter-spacing:8px;color:#f2ead6}
+footer a{color:#c9bda2;text-decoration:none;border-bottom:1px dotted #7a715e}
+footer a:hover{color:#fff}
+.tip{
+  text-align:center;font-size:12px;color:var(--ink-soft);
+  margin-top:14px;letter-spacing:1px;
+}
+@media (max-width:640px){
+  .brand h1{font-size:38px;letter-spacing:8px}
+  .seal{width:44px;height:44px;font-size:14px}
+  .hero{padding:34px 14px 30px}
+  .grid{grid-template-columns:1fr}
+  .stat{padding:4px 12px}
+  .stat .num{font-size:24px}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="brand">
+      <div class="seal">墨<br>讯</div>
+      <h1>墨 讯</h1>
+    </div>
+    <p class="sub">全国书法征稿信息聚合站 · 国展 / 省展 / 市展 / 硬笔 / 青少年</p>
+    <span class="update">📅 数据更新于 <b>2026年9月2日</b> · 每周更新 · 请以官方发布为准</span>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stats-box" id="statsBox"></div>
+</div>
+
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <div class="search-row">
+      <input id="searchInput" type="text" placeholder="🔍 搜征稿名 / 主办方 / 地区，如：中书协、江西、硬笔…">
+      <span id="resultCount" style="font-size:12.5px;color:#5a554a;white-space:nowrap"></span>
+    </div>
+    <div class="chips" id="levelChips"></div>
+    <div class="chips" id="statusChips" style="margin-top:8px"></div>
+  </div>
+</div>
+
+<main>
+  <div class="section-title" id="mainTitle">正在征稿 <small id="mainTitleSub"></small></div>
+  <div class="grid" id="cardGrid"></div>
+  <div class="empty" id="emptyBox" style="display:none">没有符合条件的征稿，换个关键词或筛选试试～</div>
+
+  <details class="overbox" id="overBox">
+    <summary>📜 已截止 · 近期回顾 <span class="cnt" id="overCnt"></span></summary>
+    <div class="grid" id="overGrid"></div>
+  </details>
+</main>
+
+<div class="disclaimer" style="max-width:1080px">
+  <b>⚠ 免责声明：</b>本站所有征稿信息均整理自公开网络渠道（微信公众号等），仅供书法爱好者参考。各展览征稿要求、截稿时间以主办方官方发布为准，投稿前请务必核对原文。本站为纯公益信息聚合，不代投、不收费、不代办。若征稿方要求缴费，请谨慎甄别，谨防上当。
+</div>
+
+<footer>
+  <div class="f-brand">墨 讯</div>
+  全国书法征稿信息站 · 公益聚合 · 每周更新<br>
+  信息来自公开网络 · 以官方发布为准 · 投稿前请核对原文<br>
+  <a href="https://weixin.sogou.com/weixin?type=2&query=%E4%B9%A6%E6%B3%95%E5%BE%81%E7%A8%BF%E5%90%AF%E4%BA%8B" target="_blank" rel="noopener">搜狗微信 · 书法征稿</a> · 用微信搜「征稿启示」「书画投稿」等公众号获取最新启事
+</footer>
+
+<script>
+// ===== 数据（2026-09-02 更新）=====
+var NOW = new Date('2026-09-02T12:00:00'); // 数据基准日（倒计时按真实当前时间计算）
+
+var DATA = [
+  // ---------- 中书协国展 ----------
+  {name:'第四届全国行草书作品展览', org:'中国书法家协会', deadline:'2026-10-20',
+   prize:'入展可作为申请加入中国书法家协会条件之一',
+   points:['中书协主办国展，含金量高','面向全国书法作者征稿','以当地邮戳为准'],
+   tags:['中书协','全国'], source:'征稿启示 / 书画投稿', hot:1},
+  {name:'第四届全国书法临帖作品展览暨2026中国书法临书大会（行草书）', org:'中国书法家协会', deadline:'2026-10-24',
+   prize:'入展可作为申请加入中国书法家协会条件之一',
+   points:['中书协主办国展','临帖作品展览，行草书方向','以当地邮戳为准'],
+   tags:['中书协','全国'], source:'征稿启示 / 广西文艺界', hot:1},
+  // ---------- 全国 ----------
+  {name:'第三届「风雅颂」中国古诗词书写大赛', org:'风雅颂组委会（书画百家等）', deadline:'2026-11-25',
+   prize:'总奖金超20万元',
+   points:['总奖金超20万元','线上投稿，2026年11月25日24时系统自动关闭','硬笔书法书写古诗词'],
+   tags:['全国','硬笔'], source:'征稿启示 / 书画百家', hot:1},
+  {name:'2026「文房印象」杯全国大书法大赛', org:'河南省硬笔书法研究院', deadline:'2026-12-15',
+   prize:'全国大书法大赛',
+   points:['面向全国各地大书法爱好者','毛笔、硬笔均可投稿','分批次征稿'],
+   tags:['全国','硬笔'], source:'征稿启示', hot:1},
+  {name:'「奔竞不息 · 勇立潮头」全国诗书画影大赛', org:'浙江（组委会）', deadline:'2026-11-30',
+   prize:'全国性综合赛事',
+   points:['书法、绘画、摄影、诗词均可投稿','作品需寄原件至浙江','拒收逾期投稿'],
+   tags:['全国'], source:'征稿启示'},
+  {name:'「会墨堂杯」全国书法大赛', org:'会墨堂（组委会）', deadline:'2026-09-30',
+   prize:'全国书法大赛',
+   points:['面向全国征稿','9月底截稿'],
+   tags:['全国'], source:'征稿启示'},
+  {name:'纪念红军长征胜利90周年摄影书法美术展', org:'全国征稿', deadline:'2026-09-05',
+   prize:'主题展',
+   points:['摄影、书法、美术均可投稿','即将截止，抓紧投稿'],
+   tags:['全国'], source:'书画大赛汇总'},
+  {name:'第二届「道源杯」书法展', org:'道源杯组委会', deadline:'2026-10-30',
+   prize:'主题书法展',
+   points:['用书法篆刻形式展现道文化内涵','以当地邮戳为准','面向全国征稿'],
+   tags:['全国'], source:'征稿启示'},
+  {name:'海南省首届女子书法作品展', org:'海南省（书协等）', deadline:'2026-09-30',
+   prize:'不收参评费',
+   points:['面向女性书法作者','不收参评费','篆刻、刻字、硬笔不在此次征稿范围'],
+   tags:['省级','全国'], source:'征稿启示'},
+  // ---------- 省级 ----------
+  {name:'2026江西省廉洁文化书法、美术作品大赛', org:'江西省（廉洁文化建设）', deadline:'2026-09-30',
+   prize:'主题大赛',
+   points:['书法、美术均可投稿','面向全国或全省征稿，以启事为准'],
+   tags:['省级','全国'], source:'征稿启示'},
+  {name:'纪念红军长征胜利90周年主题书法展暨第二届江西省陶瓷书法作品展', org:'江西省书法家协会', deadline:'2026-09-20',
+   prize:'主题书法展（已延期）',
+   points:['江西省书协主办','已延期至2026年9月20日截稿','书法与陶瓷书法作品'],
+   tags:['省级'], source:'征稿启示'},
+  {name:'第二届长三角书法篆刻展', org:'合肥市书法家协会、合肥市美术馆等', deadline:'2026-09-10',
+   prize:'区域联动展',
+   points:['长三角区域联动','年满18周岁可投稿','以当地邮戳为准'],
+   tags:['省级'], source:'征稿启示'},
+  {name:'2026「清风陇原」全省廉洁文化美术书法作品展览', org:'甘肃省（全省征稿）', deadline:'2026-09-14',
+   prize:'全省主题展',
+   points:['全省廉洁文化主题','不受理逾期投稿'],
+   tags:['省级'], source:'征稿启示'},
+  {name:'「逐梦青春」2026南京都市圈青年书法篆刻作品展', org:'南京都市圈（组委会）', deadline:'2026-10-20',
+   prize:'青年主题展',
+   points:['面向青年书法作者','南京都市圈区域展'],
+   tags:['省级'], source:'征稿启示'},
+  {name:'江苏省第四届硬笔书法临帖作品展', org:'江苏省硬笔书法家协会', deadline:'2026-10-31',
+   prize:'入选可计为一次加入江苏省硬笔书法家协会的条件',
+   points:['硬笔书法临帖展','以当地邮戳为准'],
+   tags:['省级','硬笔'], source:'征稿启示'},
+  {name:'「中国娃写中国字 · 翰墨连心」书法作品展', org:'新疆（全疆征稿）', deadline:'2026-10-31',
+   prize:'中小学生主题展',
+   points:['面向全疆初中生、小学生','书法作品征稿'],
+   tags:['省级','青少年'], source:'征稿启示'},
+  // ---------- 市级 ----------
+  {name:'「翰墨风华」锦州市第二届书法篆刻作品展览', org:'锦州市（组委会）', deadline:'2026-11-20',
+   prize:'市级书法篆刻展',
+   points:['书法作品竖式不超过六尺整张（180×97cm）','长卷高不超过40cm','11月20日截止'],
+   tags:['市级'], source:'征稿启示'},
+  {name:'延安市第八届书法篆刻作品展', org:'延安市（组委会）', deadline:'2026-10-20',
+   prize:'市级书法篆刻展',
+   points:['延安市书法篆刻展','面向书法作者征稿'],
+   tags:['市级'], source:'征稿启示'},
+  {name:'六盘水市第四届书法临摹展', org:'六盘水市（组委会）', deadline:'2026-10-10',
+   prize:'市级临摹展',
+   points:['书法临摹作品','10月10日截止'],
+   tags:['市级'], source:'书画征稿汇总'},
+  {name:'肇庆市第九届书法临帖作品展', org:'肇庆市书法家协会', deadline:'2026-10-15',
+   prize:'入展可作为加入肇庆市书法家协会的入会条件之一',
+   points:['书法临帖作品展','以邮戳及送稿登记时间为准'],
+   tags:['市级'], source:'征稿启示'},
+  {name:'临汾市首届老年书法作品展览', org:'临汾市（组委会）', deadline:'2026-09-30',
+   prize:'老年主题展',
+   points:['面向老年书法作者','展览定于重阳节（10月18日）在临汾举办'],
+   tags:['市级'], source:'征稿启示'},
+  {name:'「墨韵港城 · 文明同行」防城港市书法展', org:'防城港市（组委会）', deadline:'2026-09-15',
+   prize:'创城主题展',
+   points:['庆祝新中国成立77周年暨创城专题','9月15日截止'],
+   tags:['市级'], source:'征稿启示'},
+  {name:'「清风入墨 · 廉心铸魂」巴彦淖尔市廉洁文化书法作品展', org:'巴彦淖尔市（组委会）', deadline:'2026-09-14',
+   prize:'廉洁主题展',
+   points:['廉洁文化主题','初评电子版作品收件至9月14日'],
+   tags:['市级'], source:'征稿启示'}
+];
+
+var OVER = [
+  {name:'首届「科创长丰杯」全国书画作品展', org:'长丰县（组委会）', deadline:'2026-08-31',
+   prize:'优秀奖5000元；中书协会员、省美协会员免初评',
+   points:['全国书画作品展','已截止，可关注下届'],
+   tags:['全国']},
+  {name:'湖南省第八届书法篆刻展览', org:'湖南省书法家协会', deadline:'2026-08-30',
+   prize:'入展作者具备加入湖南省书协条件之一',
+   points:['省书协主办','已截止'],
+   tags:['省级']},
+  {name:'第五届「陕西书法奖」', org:'陕西省书法家协会', deadline:'2026-06-20',
+   prize:'陕西省书协主办',
+   points:['省级书法奖','已截止'],
+   tags:['省级']},
+  {name:'第二届「张謇奖」全国书法大展', org:'张謇奖组委会', deadline:'2026-06-20',
+   prize:'全国书法大展',
+   points:['实名投稿，禁止化名重复投稿','已截止'],
+   tags:['全国']},
+  {name:'第二届「白杨杯」硬笔书法展', org:'白杨杯组委会', deadline:'2026-05-10',
+   prize:'硬笔书法展',
+   points:['面向全国硬笔书法作者','已截止'],
+   tags:['全国','硬笔']},
+  {name:'第十届「西湖之春」全国青少年书法大赛', org:'西湖之春组委会', deadline:'2026-02-28',
+   prize:'全国青少年书法大赛',
+   points:['面向全国青少年','已截止'],
+   tags:['全国','青少年']}
+];
+
+// ===== 渲染 =====
+var TAG_LABEL = {zhongshuxie:'中书协', quanguo:'全国', shengji:'省级', shiji:'市级', yingbi:'硬笔', qingshaonian:'青少年'};
+
+function levelTag(t){
+  var map = {中书协:'zhongshuxie', 全国:'quanguo', 省级:'shengji', 市级:'shiji', 硬笔:'yingbi', 青少年:'qingshaonian'};
+  return map[t] || 'quanguo';
+}
+
+function daysLeft(deadlineStr){
+  var d = new Date(deadlineStr + 'T23:59:59');
+  var diff = d - new Date();
+  return Math.ceil(diff / 86400000);
+}
+
+function daysClass(d){
+  if (d < 0) return 'over';
+  if (d <= 7) return 'urgent';
+  if (d <= 30) return 'soon';
+  return 'ok';
+}
+
+function fmtDate(s){
+  var p = s.split('-');
+  return p[0] + '年' + parseInt(p[1],10) + '月' + parseInt(p[2],10) + '日';
+}
+
+function cardHTML(it){
+  var d = daysLeft(it.deadline);
+  var dText = d < 0 ? '已截止' : (d === 0 ? '今天截止！' : '剩 ' + d + ' 天');
+  var dCls = daysClass(d);
+  var tags = it.tags.map(function(t){
+    return '<span class="tag ' + levelTag(t) + '">' + TAG_LABEL[t] + '</span>';
+  }).join('');
+  var points = (it.points || []).map(function(p){ return '<li>' + p + '</li>'; }).join('');
+  var prize = it.prize ? '<div class="prize">🏆 ' + it.prize + '</div>' : '';
+  var link = 'https://weixin.sogou.com/weixin?type=2&query=' + encodeURIComponent(it.name);
+  var hot = it.hot ? ' style="border-color:rgba(176,58,46,.35)"' : '';
+  return '<div class="card"' + hot + '>' +
+    '<div class="card-top"><div class="tags">' + tags + '</div>' +
+    '<span class="days ' + dCls + '">' + dText + '</span></div>' +
+    '<h3>' + it.name + '</h3>' +
+    '<div class="org">主办：<b>' + it.org + '</b></div>' +
+    '<div class="deadline-row"><span class="dl">截稿</span><span class="d">' + fmtDate(it.deadline) + '</span></div>' +
+    prize +
+    '<ul class="points">' + points + '</ul>' +
+    '<div class="foot"><span>来源：' + it.source + '</span>' +
+    '<a href="' + link + '" target="_blank" rel="noopener">查看原文 ›</a></div>' +
+    '</div>';
+}
+
+// ===== 筛选状态 =====
+var state = {level:'全部', status:'征稿中', q:''};
+
+function refresh(){
+  var q = state.q.trim().toLowerCase();
+  var list = DATA.filter(function(it){
+    if (state.level !== '全部' && it.tags.indexOf(state.level) === -1) return false;
+    if (state.status === '即将截止'){
+      var d = daysLeft(it.deadline);
+      if (d < 0 || d > 7) return false;
+    }
+    if (q){
+      var hay = (it.name + it.org + it.source + it.points.join('')).toLowerCase();
+      if (hay.indexOf(q) === -1) return false;
+    }
+    return true;
+  });
+  // 按截稿日期排序
+  list.sort(function(a,b){ return a.deadline < b.deadline ? -1 : 1; });
+  document.getElementById('cardGrid').innerHTML = list.map(cardHTML).join('');
+  document.getElementById('emptyBox').style.display = list.length ? 'none' : 'block';
+  document.getElementById('resultCount').textContent = '共 ' + list.length + ' 项';
+
+  var over = OVER.filter(function(it){
+    if (state.level !== '全部' && it.tags.indexOf(state.level) === -1) return false;
+    if (q){
+      var hay = (it.name + it.org).toLowerCase();
+      if (hay.indexOf(q) === -1) return false;
+    }
+    return true;
+  });
+  document.getElementById('overGrid').innerHTML = over.map(cardHTML).join('');
+  document.getElementById('overCnt').textContent = over.length + ' 项';
+
+  var urgent = list.filter(function(it){ return daysLeft(it.deadline) <= 7; }).length;
+  document.getElementById('mainTitleSub').textContent = '（' + list.length + ' 项 · 7天内截止 ' + urgent + ' 项）';
+}
+
+// ===== 统计条 =====
+function renderStats(){
+  var open = DATA.length;
+  var urgent = DATA.filter(function(it){ var d = daysLeft(it.deadline); return d >= 0 && d <= 7; }).length;
+  var zhongshuxie = DATA.filter(function(it){ return it.tags.indexOf('中书协') !== -1; }).length;
+  document.getElementById('statsBox').innerHTML =
+    '<div class="stat"><div class="num c1">' + open + '</div><div class="lab">正在征稿</div></div>' +
+    '<div class="stat"><div class="num c2">' + urgent + '</div><div class="lab">7天内截止</div></div>' +
+    '<div class="stat"><div class="num c3">' + zhongshuxie + '</div><div class="lab">中书协国展</div></div>';
+}
+
+// ===== 筛选 chips =====
+function renderChips(){
+  var levels = ['全部','中书协','全国','省级','市级','硬笔','青少年'];
+  var box = document.getElementById('levelChips');
+  box.innerHTML = levels.map(function(l){
+    var cls = state.level === l ? 'chip on' : 'chip';
+    if (state.level === l && l === '中书协') cls += ' cinnabar';
+    if (state.level === l && (l === '省级' || l === '市级')) cls += ' green';
+    if (state.level === l && (l === '硬笔' || l === '青少年')) cls += ' gold';
+    return '<span class="' + cls + '" data-v="' + l + '">' + l + '</span>';
+  }).join('');
+
+  var statuses = [
+    {k:'征稿中', t:'征稿中'},
+    {k:'即将截止', t:'⚡ 7天内截止'}
+  ];
+  var sbox = document.getElementById('statusChips');
+  sbox.innerHTML = statuses.map(function(s){
+    var cls = state.status === s.k ? 'chip on' : 'chip';
+    if (state.status === s.k && s.k === '即将截止') cls += ' urgent';
+    return '<span class="' + cls + '" data-v="' + s.k + '">' + s.t + '</span>';
+  }).join('');
+}
+
+// ===== 事件 =====
+document.getElementById('levelChips').addEventListener('click', function(e){
+  var t = e.target;
+  if (!t.dataset || !t.dataset.v) return;
+  state.level = t.dataset.v;
+  renderChips(); refresh();
+});
+document.getElementById('statusChips').addEventListener('click', function(e){
+  var t = e.target;
+  if (!t.dataset || !t.dataset.v) return;
+  state.status = t.dataset.v;
+  renderChips(); refresh();
+});
+document.getElementById('searchInput').addEventListener('input', function(e){
+  state.q = e.target.value;
+  refresh();
+});
+
+// ===== 初始化 =====
+renderStats();
+renderChips();
+refresh();
+</script>
+</body>
+</html>
